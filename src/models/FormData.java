@@ -4,11 +4,12 @@ public class FormData {
     private String sourceFileLocation = null;
     private String targetDirectoryLocation = null;
 
-    private int iterationCount = 0;
-
     private boolean deleteSourceFile = false;
 
     private String password = null;
+    private String salt = null;
+    private String signature = null;
+    private int iterationCount = 0;
 
     public String getSourceFileLocation() {
         return sourceFileLocation;
@@ -49,4 +50,12 @@ public class FormData {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getSalt() { return salt; }
+
+    public void setSalt(String salt) { this.salt = salt; }
+
+    public String getSignature() { return signature; }
+
+    public void setSignature(String signature) { this.signature = signature; }
 }

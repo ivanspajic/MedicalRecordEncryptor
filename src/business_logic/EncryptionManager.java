@@ -9,11 +9,14 @@ import java.security.spec.InvalidKeySpecException;
 
 public class EncryptionManager {
     public void encrypt(FormData formData) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
-        String hashedSaltedPassword = PasswordHandler.getHashedAndSaltedPassword(formData.getPassword(), null, formData.getIterationCount());
-        System.out.println(hashedSaltedPassword);
-        //handle salt generation and hashing of password
-        //store generated data into new metadata file
+        String salt = PasswordHandler.generateSalt();
+        String hashedSaltedPassword = PasswordHandler.generateHashedAndSaltedPassword(formData.getPassword(), salt, formData.getIterationCount());
+
+        formData.setSalt(salt);
+        formData.setPassword(hashedSaltedPassword);
+
         //handle file encryption and signing
+        //store generated data into new metadata file
         //write the encrypted file on the disk location provided
     }
 }

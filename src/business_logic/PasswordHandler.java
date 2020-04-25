@@ -17,20 +17,20 @@ public class PasswordHandler {
     private static final int SALT_SIZE = 32;
     private static final int KEY_BITS_OUTPUT = 256;
 
-    public static String getHashedAndSaltedPassword(String password, String salt, int iterationCount) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException {
-        if (salt == null){
-            SecureRandom secureRandom = SecureRandom.getInstance(SECURE_RANDOM_ALGORITHM, PROVIDER);
-
-            byte[] hexSalt = new byte[SALT_SIZE];
-            secureRandom.nextBytes(hexSalt);
-
-            salt = new String(hexSalt);
-        }
-
+    public static String generateHashedAndSaltedPassword(String password, String salt, int iterationCount) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException {
         PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), iterationCount, KEY_BITS_OUTPUT);
         SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(KEY_FACTORY_ALGORITHM, PROVIDER);
         SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
 
         return new String(secretKey.getEncoded());
+    }
+
+    public static String generateSalt() throws NoSuchProviderException, NoSuchAlgorithmException {
+        SecureRandom secureRandom = SecureRandom.getInstance(SECURE_RANDOM_ALGORITHM, PROVIDER);
+
+        byte[] hexSalt = new byte[SALT_SIZE];
+        secureRandom.nextBytes(hexSalt);
+
+        return new String(hexSalt);
     }
 }

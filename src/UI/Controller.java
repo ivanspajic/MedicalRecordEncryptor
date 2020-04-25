@@ -1,19 +1,25 @@
-package UI;
+package ui;
 
-import javafx.beans.value.ChangeListener;
+import business_logic.EncryptionManager;
+import models.FormData;
+
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.List;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 
 public class Controller {
     private final String SOURCE_FILE_CHOOSER_TITLE = "Select Source File";
     private final String TARGET_DIRECTORY_CHOOSER_TITLE = "Select Target Directory";
+
+    private final EncryptionManager encryptionManager = new EncryptionManager();
 
     @FXML
     private Button encryptButton;
@@ -67,15 +73,19 @@ public class Controller {
     }
 
     @FXML
-    private void encryptButtonClicked(MouseEvent mouseEvent) {
+    private void encryptButtonClicked(MouseEvent mouseEvent) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
         if (checkUIFormConstraints()){
+            FormData formData = generateFormData();
 
+            encryptionManager.encrypt(formData);
         }
     }
 
     @FXML
     private void decryptButtonClicked(MouseEvent mouseEvent) {
         if (checkUIFormConstraints()){
+            FormData formData = generateFormData();
+
 
         }
     }
@@ -84,5 +94,16 @@ public class Controller {
         return (sourceField.getText() != null && !sourceField.getText().isEmpty()) &&
                 (targetField.getText() != null && !targetField.getText().isEmpty()) &&
                 (passwordField.getText() != null && !passwordField.getText().isEmpty());
+    }
+
+    private FormData generateFormData() {
+        FormData formData = new FormData();
+        formData.setDeleteSourceFile(deleteFileCheck.isSelected());
+        formData.setIterationCount(iterationChoice.getValue());
+        formData.setPassword(passwordField.getText());
+        formData.setSourceFileLocation(sourceField.getText());
+        formData.setTargetDirectoryLocation(targetField.getText());
+
+        return formData;
     }
 }

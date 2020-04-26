@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class FileUtils {
 
     // deleteFile
-    // The method a file with the provided filepath.
+    // The method deletes a file with the provided filepath.
 
     public static void deleteFile(String path) {
         try {

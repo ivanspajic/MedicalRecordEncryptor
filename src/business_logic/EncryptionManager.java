@@ -41,6 +41,10 @@ public class EncryptionManager {
 
         FileUtils.write(formData.getTargetDirectoryLocation() + PATH_SEPARATOR + formData.getSourceFilename() + FileEncryptionHandler.FILE_EXTENSION, encryptedFile);
         FileUtils.write(formData.getTargetDirectoryLocation() + PATH_SEPARATOR + formData.getSourceFilename() + MetadataFileHandler.FILE_EXTENSION, metadataContents);
+
+        if (formData.getDeleteSourceFile()){
+            FileUtils.deleteFile(formData.getSourceFileLocation());
+        }
     }
 
     private String getSplitNameExtensionFromPath(String path, boolean extension) {

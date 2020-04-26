@@ -4,11 +4,17 @@ public class FormData {
     private String sourceFileLocation = null;
     private String targetDirectoryLocation = null;
 
+    private String sourceFilename = null;
+    private String sourceFileExtension = null;
+
     private boolean deleteSourceFile = false;
 
-    private String password = null;
-    private String salt = null;
-    private String signature = null;
+    private String clearTextPassword = null;
+    private byte[] hashedSaltedPassword = null;
+    private byte[] salt = null;
+
+    private byte[] signature = null;
+
     private int iterationCount = 0;
 
     public String getSourceFileLocation() {
@@ -27,6 +33,22 @@ public class FormData {
         this.targetDirectoryLocation = targetDirectoryLocation;
     }
 
+    public String getSourceFilename() {
+        return sourceFilename;
+    }
+
+    public void setSourceFilename(String sourceFilename) {
+        this.sourceFilename = sourceFilename;
+    }
+
+    public String getSourceFileExtension() {
+        return sourceFileExtension;
+    }
+
+    public void setSourceFileExtension(String sourceFileExtension) {
+        this.sourceFileExtension = sourceFileExtension;
+    }
+
     public int getIterationCount() {
         return iterationCount;
     }
@@ -43,19 +65,27 @@ public class FormData {
         this.deleteSourceFile = deleteSourceFile;
     }
 
-    public String getPassword() {
-        return password;
+    public String getClearTextPassword() {
+        return clearTextPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setClearTextPassword(String clearTextPassword) {
+        this.clearTextPassword = clearTextPassword;
     }
 
-    public String getSalt() { return salt; }
+    public byte[] getHashedSaltedPassword() {
+        return hashedSaltedPassword;
+    }
 
-    public void setSalt(String salt) { this.salt = salt; }
+    public void setHashedSaltedPassword(byte[] hashedSaltedPassword) {
+        this.hashedSaltedPassword = hashedSaltedPassword;
+    }
 
-    public String getSignature() { return signature; }
+    public byte[] getSalt() { return salt; }
 
-    public void setSignature(String signature) { this.signature = signature; }
+    public void setSalt(byte[] salt) { this.salt = salt; }
+
+    public byte[] getSignature() { return signature; }
+
+    public void setSignature(byte[] signature) { this.signature = signature; }
 }

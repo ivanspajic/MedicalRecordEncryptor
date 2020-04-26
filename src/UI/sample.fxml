@@ -6,7 +6,7 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
    <children>
       <Button fx:id="encryptButton" layoutX="20.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#encryptButtonClicked" prefHeight="40.0" prefWidth="270.0" text="Encrypt" />
       <Button fx:id="decryptButton" layoutX="310.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#decryptButtonClicked" prefHeight="40.0" prefWidth="270.0" text="Decrypt" />

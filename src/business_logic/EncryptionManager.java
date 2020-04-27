@@ -50,12 +50,7 @@ public class EncryptionManager {
         byte[] metadataContents = FileUtils.readAllBytes(metadataFilePath + MetadataFileHandler.FILE_EXTENSION);
         FormData metaFormData = MetadataFileHandler.getFormDataFromMetadata(metadataContents);
 
-        if (formData.getIterationCount() != metaFormData.getIterationCount()){
-            System.out.println("iteration count wrong");
-            return;
-        }
-
-        byte[] hashedSaltedPassword = PasswordHandler.generateHashedAndSaltedPassword(formData.getClearTextPassword(), metaFormData.getSalt(), formData.getIterationCount());
+        byte[] hashedSaltedPassword = PasswordHandler.generateHashedAndSaltedPassword(formData.getClearTextPassword(), metaFormData.getSalt(), metaFormData.getIterationCount());
 
         if (!MessageDigest.isEqual(metaFormData.getHashedSaltedPassword(), hashedSaltedPassword)) {
             System.out.println("password wrong");

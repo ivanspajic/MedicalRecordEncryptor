@@ -26,6 +26,7 @@ public class FileEncryptionHandler {
         int cipherMode;
         if (encrypt) {
             cipherMode = 1;
+
         } else {
             cipherMode = 2;
         }

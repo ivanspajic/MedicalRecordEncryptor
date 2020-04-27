@@ -1,5 +1,6 @@
 package ui;
 
+import business_logic.CustomDialogException;
 import business_logic.EncryptionManager;
 import models.FormData;
 
@@ -27,6 +28,8 @@ public class Controller {
     private final boolean DEFAULT_CHECKBOX_VALUE = false;
     private final String DEFAULT_CHOICEBOX_VALUE = "100";
     private final String DEFAULT_TEXTFIELD_VALUE = "";
+
+    private final String DIALOG_TITLE = "Warning!";
 
     private final EncryptionManager encryptionManager = new EncryptionManager();
 
@@ -90,24 +93,46 @@ public class Controller {
     }
 
     @FXML
-    private void encryptButtonClicked(MouseEvent mouseEvent) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, InvalidKeyException, BadPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException {
+    private void encryptButtonClicked(MouseEvent mouseEvent) {
         if (checkUIFormConstraints()){
             FormData formData = generateFormData();
 
-            encryptionManager.encrypt(formData);
+            try {
+                encryptionManager.encrypt(formData);
 
-            clearForm();
+                clearForm();
+
+            } catch (Exception e){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+
+                alert.setTitle(DIALOG_TITLE);
+                alert.setHeaderText(null);
+                alert.setContentText(e.getMessage());
+
+                alert.showAndWait();
+            }
         }
     }
 
     @FXML
-    private void decryptButtonClicked(MouseEvent mouseEvent) throws BadPaddingException, NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
+    private void decryptButtonClicked(MouseEvent mouseEvent) {
         if (checkUIFormConstraints()){
             FormData formData = generateFormData();
 
-            encryptionManager.decrypt(formData);
+            try {
+                encryptionManager.decrypt(formData);
 
-            clearForm();
+                clearForm();
+
+            } catch (Exception e){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+
+                alert.setTitle(DIALOG_TITLE);
+                alert.setHeaderText(null);
+                alert.setContentText(e.getMessage());
+
+                alert.showAndWait();
+            }
         }
     }
 

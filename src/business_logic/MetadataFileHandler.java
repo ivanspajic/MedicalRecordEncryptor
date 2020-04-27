@@ -1,8 +1,6 @@
 package business_logic;
 
-import javafx.fxml.FXML;
 import models.FormData;
-import org.bouncycastle.jcajce.provider.symmetric.ARC4;
 
 import java.util.Base64;
 import java.util.regex.Pattern;

@@ -13,7 +13,7 @@ public class FormData {
     private byte[] hashedSaltedPassword = null;
     private byte[] salt = null;
 
-    private byte[] signature = null;
+    private byte[] fileSignature = null;
 
     private int iterationCount = 0;
 
@@ -85,7 +85,7 @@ public class FormData {
 
     public void setSalt(byte[] salt) { this.salt = salt; }
 
-    public byte[] getSignature() { return signature; }
+    public byte[] getFileSignature() { return fileSignature; }
 
-    public void setSignature(byte[] signature) { this.signature = signature; }
+    public void setFileSignature(byte[] fileSignature) { this.fileSignature = fileSignature; }
 }

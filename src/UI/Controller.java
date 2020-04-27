@@ -1,6 +1,5 @@
 package ui;
 
-import business_logic.CustomDialogException;
 import business_logic.EncryptionManager;
 import models.FormData;
 
@@ -10,16 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import java.io.File;
-
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.spec.InvalidKeySpecException;
 
 public class Controller {
     private final String SOURCE_FILE_CHOOSER_TITLE = "Select Source File";
@@ -62,6 +52,13 @@ public class Controller {
 
     public Controller() {}
 
+    /**
+     * Handles the click event for the source file selection button and it
+     * disables the button while the file picker is open. If a file was
+     * successfully chosen, its path is assigned to the corresponding
+     * text field.
+     * @param mouseEvent
+     */
     @FXML
     private void sourceLocationButtonClicked(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
@@ -77,6 +74,13 @@ public class Controller {
         sourceButton.setDisable(false);
     }
 
+    /**
+     * Handles the click event for the target directory selection button
+     * and it disables the button while the directory picker is open. If a
+     * directory was successfully chosen, its path is assigned to the corresponding
+     * text field.
+     * @param mouseEvent
+     */
     @FXML
     private void targetLocationButtonClicked(MouseEvent mouseEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -92,6 +96,14 @@ public class Controller {
         targetButton.setDisable(false);
     }
 
+    /**
+     * Handles the click event for the encryption button. It checks that
+     * all the required fields are filled out before proceeding to encrypt.
+     * It handles any exceptions by launching a dialog window for alerting
+     * the user. If a file was successfully encrypted, the application's
+     * form fields will be cleared/reset.
+     * @param mouseEvent
+     */
     @FXML
     private void encryptButtonClicked(MouseEvent mouseEvent) {
         if (checkUIFormConstraints()){
@@ -101,7 +113,6 @@ public class Controller {
                 encryptionManager.encrypt(formData);
 
                 clearForm();
-
             } catch (Exception e){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
 
@@ -114,6 +125,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Handles the click event for the decryption button. It checks that
+     * all the required fields are filled out before proceeding to decrypt.
+     * It handles any exceptions by launching a dialog window for alerting
+     * the user. If a file was successfully decrypted, the application's
+     * form fields will be cleared/reset.
+     * @param mouseEvent
+     */
     @FXML
     private void decryptButtonClicked(MouseEvent mouseEvent) {
         if (checkUIFormConstraints()){
@@ -123,7 +142,6 @@ public class Controller {
                 encryptionManager.decrypt(formData);
 
                 clearForm();
-
             } catch (Exception e){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
 
@@ -136,12 +154,21 @@ public class Controller {
         }
     }
 
+    /**
+     * This method checks that all the required fields are filled out.
+     * @return
+     */
     private boolean checkUIFormConstraints(){
         return (sourceField.getText() != null && !sourceField.getText().isEmpty()) &&
                 (targetField.getText() != null && !targetField.getText().isEmpty()) &&
                 (passwordField.getText() != null && !passwordField.getText().isEmpty());
     }
 
+    /**
+     * This method populates a FormData object with the filled out form
+     * providing all the user input.
+     * @return
+     */
     private FormData generateFormData() {
         FormData formData = new FormData();
         formData.setDeleteSourceFile(deleteFileCheck.isSelected());
@@ -153,6 +180,9 @@ public class Controller {
         return formData;
     }
 
+    /**
+     * This method clears/resets the UI form.
+     */
     private void clearForm() {
         sourceField.setText(DEFAULT_TEXTFIELD_VALUE);
         targetField.setText(DEFAULT_TEXTFIELD_VALUE);

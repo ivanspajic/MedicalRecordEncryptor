@@ -93,11 +93,13 @@ public class Controller {
     }
 
     @FXML
-    private void decryptButtonClicked(MouseEvent mouseEvent) {
+    private void decryptButtonClicked(MouseEvent mouseEvent) throws BadPaddingException, NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchProviderException, InvalidKeyException, InvalidKeySpecException {
         if (checkUIFormConstraints()){
             FormData formData = generateFormData();
 
+            encryptionManager.decrypt(formData);
 
+            clearForm();
         }
     }
 

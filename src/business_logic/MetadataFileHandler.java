@@ -2,6 +2,8 @@ package business_logic;
 
 import models.FormData;
 
+import java.util.regex.Pattern;
+
 public class MetadataFileHandler {
     public static final String FILE_EXTENSION = ".mremeta";
 
@@ -18,15 +20,19 @@ public class MetadataFileHandler {
     public static byte[] generateFileContents(FormData formData) {
         String file = FILENAME_LABEL + LABEL_VALUE_SEPARATOR + formData.getSourceFilename() + DATA_PAIR_SEPARATOR +
                       FILE_EXTENSION_LABEL + LABEL_VALUE_SEPARATOR + formData.getSourceFileExtension() + DATA_PAIR_SEPARATOR +
-                      KEY_LABEL + LABEL_VALUE_SEPARATOR + formData.getHashedSaltedPassword() + DATA_PAIR_SEPARATOR +
-                      SALT_LABEL + LABEL_VALUE_SEPARATOR + formData.getSalt() + DATA_PAIR_SEPARATOR +
+                      KEY_LABEL + LABEL_VALUE_SEPARATOR + new String(formData.getHashedSaltedPassword()) + DATA_PAIR_SEPARATOR +
+                      SALT_LABEL + LABEL_VALUE_SEPARATOR + new String(formData.getSalt()) + DATA_PAIR_SEPARATOR +
                       ITERATION_COUNT_LABEL + LABEL_VALUE_SEPARATOR + formData.getIterationCount() + DATA_PAIR_SEPARATOR +
-                      SIGNATURE_LABEL + LABEL_VALUE_SEPARATOR + formData.getSignature();
+                      SIGNATURE_LABEL + LABEL_VALUE_SEPARATOR + new String(formData.getSignature());
 
         return file.getBytes();
     }
 
     public static FormData getFormDataFromMetadata(byte[] metadata) {
-        return new FormData();
+        FormData formData = new FormData();
+
+
+
+        return formData;
     }
 }

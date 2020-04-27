@@ -14,7 +14,7 @@ public class PasswordHandler {
     private static final String SECURE_RANDOM_ALGORITHM = "DEFAULT";
     private static final String KEY_FACTORY_ALGORITHM = "PBKDF2WITHHMACSHA256";
 
-    private static final int SALT_SIZE = 32;
+    private static final int SALT_SIZE = 16;
     private static final int KEY_BITS_OUTPUT = 256;
 
     public static byte[] generateHashedAndSaltedPassword(String password, byte[] salt, int iterationCount) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException {

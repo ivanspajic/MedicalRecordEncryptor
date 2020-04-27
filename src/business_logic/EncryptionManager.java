@@ -6,10 +6,7 @@ import data_access.FileUtils;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.util.regex.Pattern;
 
@@ -26,10 +23,10 @@ public class EncryptionManager {
 
         byte[] fileContents = FileUtils.readAllBytes(formData.getSourceFileLocation());
 
-        byte[] encryptedFile = FileEncryptionHandler.encryptFile(fileContents, formData.getHashedSaltedPassword(), formData.getIterationCount());
-        byte[] hashedFile = FileEncryptionHandler.hashFile(fileContents);
+        byte[] encryptedFile = FileEncryptionHandler.encryptDecryptFile(fileContents, formData.getHashedSaltedPassword(), formData.getSalt(), formData.getIterationCount(), true);
+        byte[] fileSignature = FileEncryptionHandler.hashFile(fileContents);
 
-        formData.setSignature(hashedFile);
+        formData.setSignature(fileSignature);
 
         String fileExtension = getSplitNameExtensionFromPath(formData.getSourceFileLocation(), true);
         formData.setSourceFileExtension(fileExtension);
@@ -44,6 +41,35 @@ public class EncryptionManager {
 
         if (formData.getDeleteSourceFile()){
             FileUtils.deleteFile(formData.getSourceFileLocation());
+        }
+    }
+
+    public void decrypt(FormData formData) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException {
+        String metadataFilePath = getSplitNameExtensionFromPath(formData.getSourceFileLocation(), false);
+
+        byte[] metadataContents = FileUtils.readAllBytes(metadataFilePath + MetadataFileHandler.FILE_EXTENSION);
+        FormData metaFormData = MetadataFileHandler.getFormDataFromMetadata(metadataContents);
+
+        byte[] hashedSaltedPassword = PasswordHandler.generateHashedAndSaltedPassword(formData.getClearTextPassword(), metaFormData.getSalt(), formData.getIterationCount());
+
+        if (!MessageDigest.isEqual(metaFormData.getHashedSaltedPassword(), hashedSaltedPassword)) {
+            System.out.println("password wrong");
+        }
+
+        byte[] fileContents = FileUtils.readAllBytes(formData.getSourceFileLocation());
+
+        byte[] decryptedFile = FileEncryptionHandler.encryptDecryptFile(fileContents, metaFormData.getHashedSaltedPassword(), metaFormData.getSalt(), metaFormData.getIterationCount(), false);
+        byte[] fileSignature = FileEncryptionHandler.hashFile(decryptedFile);
+
+        if (!MessageDigest.isEqual(metaFormData.getSignature(), fileSignature)) {
+            System.out.println("signature wrong");
+        }
+
+        FileUtils.write(formData.getTargetDirectoryLocation() + PATH_SEPARATOR + metaFormData.getSourceFilename() + metaFormData.getSourceFileExtension(), decryptedFile);
+
+        if (formData.getDeleteSourceFile()){
+            FileUtils.deleteFile(formData.getSourceFileLocation());
+            FileUtils.deleteFile(metadataFilePath);
         }
     }
 

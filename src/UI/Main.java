@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-
 public class Main extends Application {
 
     private final String WINDOW_TITLE = "Medical Record Encryptor";

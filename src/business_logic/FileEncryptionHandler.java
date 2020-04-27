@@ -13,11 +13,8 @@ public class FileEncryptionHandler {
 
     private static final String PROVIDER = "BC";
     private static final String ENCRYPTION_ALGORITHM = "AES";
-    private static final String SECURE_RANDOM_ALGORITHM = "DEFAULT";
     private static final String MESSAGE_DIGEST_ALGORITHM = "SHA-256";
     private static final String CIPHER_ALGORITHM = ENCRYPTION_ALGORITHM + "/CBC/PKCS5Padding";
-
-    private static final int IV_SIZE = 16;
 
     /**
      * Either encrypts or decrypts a file, based on the arguments provided.

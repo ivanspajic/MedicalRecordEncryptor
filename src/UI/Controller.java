@@ -64,10 +64,14 @@ public class Controller {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(SOURCE_FILE_CHOOSER_TITLE);
 
+        sourceButton.setDisable(true);
+
         File file = fileChooser.showOpenDialog(null);
         if (file != null){
             sourceField.setText(file.getAbsolutePath());
         }
+
+        sourceButton.setDisable(false);
     }
 
     @FXML
@@ -75,10 +79,14 @@ public class Controller {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(TARGET_DIRECTORY_CHOOSER_TITLE);
 
+        targetButton.setDisable(true);
+
         File file = directoryChooser.showDialog(null);
         if (file != null){
             targetField.setText(file.getAbsolutePath());
         }
+
+        targetButton.setDisable(false);
     }
 
     @FXML

@@ -52,12 +52,14 @@ public class EncryptionManager {
 
         if (formData.getIterationCount() != metaFormData.getIterationCount()){
             System.out.println("iteration count wrong");
+            return;
         }
 
         byte[] hashedSaltedPassword = PasswordHandler.generateHashedAndSaltedPassword(formData.getClearTextPassword(), metaFormData.getSalt(), formData.getIterationCount());
 
         if (!MessageDigest.isEqual(metaFormData.getHashedSaltedPassword(), hashedSaltedPassword)) {
             System.out.println("password wrong");
+            return;
         }
 
         byte[] fileContents = FileUtils.readAllBytes(formData.getSourceFileLocation());
@@ -67,6 +69,7 @@ public class EncryptionManager {
 
         if (!MessageDigest.isEqual(metaFormData.getFileSignature(), fileSignature)) {
             System.out.println("signature wrong");
+            return;
         }
 
         FileUtils.write(formData.getTargetDirectoryLocation() + PATH_SEPARATOR + metaFormData.getSourceFilename() + metaFormData.getSourceFileExtension(), decryptedFile);

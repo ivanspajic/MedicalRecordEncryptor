@@ -17,6 +17,17 @@ public class PasswordHandler {
     private static final int SALT_SIZE = 16;
     private static final int KEY_BITS_OUTPUT = 256;
 
+    /**
+     * This method generates a hashed and salted password, based on the
+     * provided cleartext password and the iteration count from the user.
+     * @param password
+     * @param salt
+     * @param iterationCount
+     * @return
+     * @throws NoSuchProviderException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     public static byte[] generateHashedAndSaltedPassword(String password, byte[] salt, int iterationCount) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException {
         PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, iterationCount, KEY_BITS_OUTPUT);
         SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(KEY_FACTORY_ALGORITHM, PROVIDER);
@@ -26,6 +37,12 @@ public class PasswordHandler {
         return secretKey.getEncoded();
     }
 
+    /**
+     * This method generates a random salt string.
+     * @return
+     * @throws NoSuchProviderException
+     * @throws NoSuchAlgorithmException
+     */
     public static byte[] generateSalt() throws NoSuchProviderException, NoSuchAlgorithmException {
         SecureRandom secureRandom = SecureRandom.getInstance(SECURE_RANDOM_ALGORITHM, PROVIDER);
 

@@ -20,6 +20,12 @@ public class MetadataFileHandler {
     private static final String ITERATION_COUNT_LABEL = "iterations";
     private static final String SIGNATURE_LABEL = "signature";
 
+    /**
+     * This method generates metadata file contents, based on the form data
+     * provided by the user.
+     * @param formData
+     * @return
+     */
     public static byte[] generateFileContents(FormData formData) {
         String hashedSaltedPassword = Base64.getEncoder().encodeToString(formData.getHashedSaltedPassword());
         String salt = Base64.getEncoder().encodeToString(formData.getSalt());
@@ -35,6 +41,12 @@ public class MetadataFileHandler {
         return file.getBytes();
     }
 
+    /**
+     * This method generates a FormData object, provided by the file contents
+     * of a metadata file.
+     * @param metadata
+     * @return
+     */
     public static FormData getFormDataFromMetadata(byte[] metadata) {
         FormData formData = new FormData();
 

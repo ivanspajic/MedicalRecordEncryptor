@@ -22,3 +22,5 @@
 
 # IntelliJ
 out/
+testfile.txt
+.idea/libraries/lib.xml

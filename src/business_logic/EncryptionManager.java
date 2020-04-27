@@ -26,7 +26,7 @@ public class EncryptionManager {
         byte[] encryptedFile = FileEncryptionHandler.encryptDecryptFile(fileContents, formData.getHashedSaltedPassword(), formData.getSalt(), formData.getIterationCount(), true);
         byte[] fileSignature = FileEncryptionHandler.hashFile(fileContents);
 
-        formData.setSignature(fileSignature);
+        formData.setFileSignature(fileSignature);
 
         String fileExtension = getSplitNameExtensionFromPath(formData.getSourceFileLocation(), true);
         formData.setSourceFileExtension(fileExtension);
@@ -50,6 +50,10 @@ public class EncryptionManager {
         byte[] metadataContents = FileUtils.readAllBytes(metadataFilePath + MetadataFileHandler.FILE_EXTENSION);
         FormData metaFormData = MetadataFileHandler.getFormDataFromMetadata(metadataContents);
 
+        if (formData.getIterationCount() != metaFormData.getIterationCount()){
+            System.out.println("iteration count wrong");
+        }
+
         byte[] hashedSaltedPassword = PasswordHandler.generateHashedAndSaltedPassword(formData.getClearTextPassword(), metaFormData.getSalt(), formData.getIterationCount());
 
         if (!MessageDigest.isEqual(metaFormData.getHashedSaltedPassword(), hashedSaltedPassword)) {
@@ -61,7 +65,7 @@ public class EncryptionManager {
         byte[] decryptedFile = FileEncryptionHandler.encryptDecryptFile(fileContents, metaFormData.getHashedSaltedPassword(), metaFormData.getSalt(), metaFormData.getIterationCount(), false);
         byte[] fileSignature = FileEncryptionHandler.hashFile(decryptedFile);
 
-        if (!MessageDigest.isEqual(metaFormData.getSignature(), fileSignature)) {
+        if (!MessageDigest.isEqual(metaFormData.getFileSignature(), fileSignature)) {
             System.out.println("signature wrong");
         }
 
@@ -69,7 +73,7 @@ public class EncryptionManager {
 
         if (formData.getDeleteSourceFile()){
             FileUtils.deleteFile(formData.getSourceFileLocation());
-            FileUtils.deleteFile(metadataFilePath);
+            FileUtils.deleteFile(metadataFilePath + MetadataFileHandler.FILE_EXTENSION);
         }
     }
 

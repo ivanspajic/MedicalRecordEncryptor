@@ -23,12 +23,14 @@ public class FileEncryptionHandler {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM, PROVIDER);
         SecretKeySpec keySpec = new SecretKeySpec(hashedSaltedPassword, ENCRYPTION_ALGORITHM);
 
-        if (encrypt){
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(generateIv()));
+        int cipherMode;
+        if (encrypt) {
+            cipherMode = 1;
         } else {
-            System.out.println(salt.length);
-            cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(salt));
+            cipherMode = 2;
         }
+
+        cipher.init(cipherMode, keySpec, new IvParameterSpec(salt));
 
         byte[] newFileContents = cipher.doFinal(fileContents);
         for (int i = 0; i < iterationCount - 1; i++) {
@@ -36,20 +38,6 @@ public class FileEncryptionHandler {
         }
 
         return newFileContents;
-    }
-
-    public static byte[] decryptFile(byte[] encryptedFileContents, byte[] hashedSaltedPassword, byte[] salt, int iterationCount) throws NoSuchProviderException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM, PROVIDER);
-        SecretKeySpec keySpec = new SecretKeySpec(hashedSaltedPassword, ENCRYPTION_ALGORITHM);
-
-        cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(salt));
-
-        byte[] decryptedFile = cipher.doFinal(encryptedFileContents);
-        for (int i = 0; i < iterationCount - 1; i++){
-            decryptedFile = cipher.doFinal(decryptedFile);
-        }
-
-        return decryptedFile;
     }
 
     public static byte[] hashFile(byte[] fileContents) throws NoSuchProviderException, NoSuchAlgorithmException {

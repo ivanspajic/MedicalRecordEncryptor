@@ -9,8 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.File;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
@@ -18,6 +23,10 @@ import java.security.spec.InvalidKeySpecException;
 public class Controller {
     private final String SOURCE_FILE_CHOOSER_TITLE = "Select Source File";
     private final String TARGET_DIRECTORY_CHOOSER_TITLE = "Select Target Directory";
+
+    private final boolean DEFAULT_CHECKBOX_VALUE = false;
+    private final String DEFAULT_CHOICEBOX_VALUE = "100";
+    private final String DEFAULT_TEXTFIELD_VALUE = "";
 
     private final EncryptionManager encryptionManager = new EncryptionManager();
 
@@ -73,11 +82,13 @@ public class Controller {
     }
 
     @FXML
-    private void encryptButtonClicked(MouseEvent mouseEvent) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+    private void encryptButtonClicked(MouseEvent mouseEvent) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, InvalidKeyException, BadPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException {
         if (checkUIFormConstraints()){
             FormData formData = generateFormData();
 
             encryptionManager.encrypt(formData);
+
+            clearForm();
         }
     }
 
@@ -100,10 +111,18 @@ public class Controller {
         FormData formData = new FormData();
         formData.setDeleteSourceFile(deleteFileCheck.isSelected());
         formData.setIterationCount(iterationChoice.getValue());
-        formData.setPassword(passwordField.getText());
+        formData.setClearTextPassword(passwordField.getText());
         formData.setSourceFileLocation(sourceField.getText());
         formData.setTargetDirectoryLocation(targetField.getText());
 
         return formData;
+    }
+
+    private void clearForm() {
+        sourceField.setText(DEFAULT_TEXTFIELD_VALUE);
+        targetField.setText(DEFAULT_TEXTFIELD_VALUE);
+        passwordField.setText(DEFAULT_TEXTFIELD_VALUE);
+        deleteFileCheck.setSelected(DEFAULT_CHECKBOX_VALUE);
+        iterationChoice.setValue(DEFAULT_CHOICEBOX_VALUE);
     }
 }

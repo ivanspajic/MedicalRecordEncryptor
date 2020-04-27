@@ -7,6 +7,17 @@ import java.util.ArrayList;
 
 public class FileUtils {
 
+    // deleteFile
+    // The method deletes a file with the provided filepath.
+
+    public static void deleteFile(String path) {
+        try {
+            Files.delete(Paths.get(path));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // readAllBytes:
     // The method merely hides the use of Paths.
 

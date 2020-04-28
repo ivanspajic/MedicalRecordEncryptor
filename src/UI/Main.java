@@ -15,7 +15,7 @@ public class Main extends Application {
     private final boolean WINDOW_RESIZABLE = false;
 
     /**
-     * Sets up the starting point of the UI application by loading the respective
+     * Sets up the starting point of the ui application by loading the respective
      * .fxml file and adding a controller for the components used.
      * @param primaryStage
      * @throws Exception

@@ -181,7 +181,7 @@ public class Controller {
     }
 
     /**
-     * This method clears/resets the UI form.
+     * This method clears/resets the ui form.
      */
     private void clearForm() {
         sourceField.setText(DEFAULT_TEXTFIELD_VALUE);

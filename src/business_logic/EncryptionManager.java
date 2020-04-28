@@ -1,5 +1,6 @@
 package business_logic;
 
+import models.CustomDialogException;
 import models.FormData;
 import data_access.FileUtils;
 

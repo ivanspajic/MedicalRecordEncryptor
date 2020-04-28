@@ -5,6 +5,10 @@ import java.nio.file.Paths;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * @author Niels Jørgensen
+ */
+
 public class FileUtils {
 
     // deleteFile

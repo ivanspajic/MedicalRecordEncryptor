@@ -1,4 +1,4 @@
-package business_logic;
+package models;
 
 public class CustomDialogException extends Exception {
     public static final String FILE_CONTENTS_MISSING = "The file at the supplied source path could not be read. It might be missing.";
